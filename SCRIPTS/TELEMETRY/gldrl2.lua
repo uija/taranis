@@ -1,3 +1,4 @@
+-- Battery configurations with min and max values per cell
 local batteryConfig = {}
   batteryConfig.nimh = {}
     batteryConfig.nimh.min = 1.2
@@ -6,9 +7,12 @@ local batteryConfig = {}
     batteryConfig.lipo.min = 3.5
     batteryConfig.lipo.max = 4.2
 
+-- Define, what battery we use
 local battery = batteryConfig.lipo;
+-- How many cells
 local cells = 2;
 
+-- // Store some local variables to reuse them
 local modelInfo = {}
 
 local height = 0;
@@ -22,6 +26,8 @@ local rssimin = 0;
 local rssimax = 0;
 local rssi = 0;
 
+-- is called by run and background to fetch data from telemetry
+-- calculates min and max rssi to be able to display it
 local function getData()
   height = getValue( "Alt");
   hmin = getValue( "Alt-");
@@ -66,8 +72,6 @@ local function getRssiPercentage( rssi)
 end
 
 local function drawBatteryGauge( x)
-
-  --value = 3.98;
   local y = 12;
   local w = 15;
   local offset = 3;
@@ -92,9 +96,6 @@ end
 
 local function drawHeight( x)
   local y = 12;
-  --height = 198.75;
-  --hmin = 100.3;
-  --hmax = 212.8;
   lcd.drawText( x, y, "Height");
   lcd.drawNumber( x, y+12, height*10, PREC1+MIDSIZE);
   lcd.drawText( lcd.getLastPos(), y+17, "m", SMLSIZE);
@@ -112,9 +113,6 @@ end
 
 local function drawVSpeed( x)
   local y = 12;
-  --speed = 20.6;
-  --smin = -10.9;
-  --smax = 2.8;
   lcd.drawText( x, y, "V-Speed");
   lcd.drawNumber( x, y+12, speed*10, PREC1+MIDSIZE);
   lcd.drawText( lcd.getLastPos(), y+17, "m/s", SMLSIZE);
